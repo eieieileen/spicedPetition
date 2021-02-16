@@ -16,3 +16,13 @@ module.exports.addSignature = (first, last, signature) => {
     const params = [first, last, signature];
     return db.query(q, params);
 };
+
+module.exports.selectNames = () => {
+    const q = `SELECT first,last FROM signatures`;
+    return db.query(q);
+};
+
+module.exports.selectNum = () => {
+    const q = `SELECT count(id) FROM signatures`;
+    return db.query(q);
+}
