@@ -1,0 +1,17 @@
+{{!-- hier moet een partial voor de post error message
+
+app.post("/petition", (req, res) => {
+    console.log("req body", req.body);
+    const { firstName, lastName, signature } = req.body;
+    db.addSignature(firstName, lastName, signature)
+        .then(() => {
+            res.cookie("signed", "true");
+            res.redirect("/thanks");
+        })
+        .catch((err) => {
+            console.log("error in app.post/petition 💃", err);
+            res.render("/petition", {
+                layout: 
+            });
+        });
+}); --}}
