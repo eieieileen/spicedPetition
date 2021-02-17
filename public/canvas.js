@@ -4,6 +4,7 @@ let x = 0;
 let y = 0;
 
 const canvas = $("#canvas");
+
 const ctx = $("#canvas")[0].getContext("2d");
 
 canvas.on("mousedown", (event) => {
@@ -40,6 +41,8 @@ function drawLine(ctx, x1, y1, x2, y2) {
     ctx.lineTo(x2, y2);
     ctx.stroke();
     ctx.closePath();
+    let dataURL = canvas.toDataURL();
+    console.log("dit zou het moeten zijn", dataURL);
 }
 
 // $("#canvas").on("mousedown", function (){
