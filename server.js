@@ -42,7 +42,7 @@ app.post("/petition", (req, res) => {
         .catch((err) => {
             console.log("error in app.post/petition 💃", err);
             res.render("petition", {
-                err: true //ik wil hier dus de partial
+                err: true, //ik wil hier dus de partial
             });
         });
 });
@@ -60,9 +60,25 @@ app.get("/thanks", (req, res) => {
 
 app.get("/signers", (req, res) => {
     if (!req.cookies.signed) {
-        res.render("petition", {
-            layout: "main"
-        }); 
+        res.redirect("/petition");
+    } else {
+        db.selectNames().then(({ rows }) => {
+            console.log("response: ", rows);
+            res.render("signers", {
+                layout: "main",
+                rows: rows
+            });
+        }).catch((err) => {
+            console.log("error in /signers sad baby face 👶", err);
+        });
+        db.selectNum().then(({ rows }) => {
+            console.log("response van selectNum", rows);
+            res.render("signers", {
+                layout: "main",
+                rows: rows
+            });
+        });
+
     }
 });
 

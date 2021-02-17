@@ -25,4 +25,4 @@ module.exports.selectNames = () => {
 module.exports.selectNum = () => {
     const q = `SELECT count(id) FROM signatures`;
     return db.query(q);
-}
+};
