@@ -4,8 +4,9 @@ let x = 0;
 let y = 0;
 
 const canvas = $("#canvas");
-
 const ctx = $("#canvas")[0].getContext("2d");
+const signature = $("#signature");
+
 
 canvas.on("mousedown", (event) => {
     x = event.offsetX;
@@ -30,6 +31,9 @@ canvas.on("mouseup", (event) => {
         y = 0;
         isDrawing = false;
         console.log("mouseup swaggergirl🧍‍♀️");
+        const dataURL = canvas[0].toDataURL();
+        signature.val(dataURL);
+        console.log("data url: ", dataURL);
     }
 });
 
@@ -41,8 +45,6 @@ function drawLine(ctx, x1, y1, x2, y2) {
     ctx.lineTo(x2, y2);
     ctx.stroke();
     ctx.closePath();
-    let dataURL = canvas.toDataURL();
-    console.log("dit zou het moeten zijn", dataURL);
 }
 
 // $("#canvas").on("mousedown", function (){

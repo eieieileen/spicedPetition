@@ -1,12 +1,26 @@
 * {
-    background-color: #A1869E;
+    background-color: #a1869e;
 }
 
 canvas {
-    background-color:#E8FFB7;
+    background-color: #e8ffb7;
     border: 3px solid black;
 }
 
 #signature {
     background-color: aqua;
+}
+
+button {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+button:active {
+    box-shadow: none;
+}
+
+button:focus {
+    outline: 0;
 }

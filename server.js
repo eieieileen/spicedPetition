@@ -49,12 +49,20 @@ app.post("/petition", (req, res) => {
 
 //after signing petition
 app.get("/thanks", (req, res) => {
-    if (req.cookies.authenticated) {
+    if (req.cookies.signed) {
         res.render("thanks", {
             layout: "main",
         });
     } else {
         res.redirect("/petition");
+    }
+});
+
+app.get("/signers", (req, res) => {
+    if (!req.cookies.signed) {
+        res.render("petition", {
+            layout: "main"
+        }); 
     }
 });
 
