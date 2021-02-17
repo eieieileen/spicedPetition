@@ -50,8 +50,12 @@ app.post("/petition", (req, res) => {
 //after signing petition
 app.get("/thanks", (req, res) => {
     if (req.cookies.signed) {
-        res.render("thanks", {
-            layout: "main",
+        db.selectNum().then(({ rows }) => {
+            console.log("response van selectNum", rows);
+            res.render("thanks", {
+                layout: "main",
+                count: rows,
+            });
         });
     } else {
         res.redirect("/petition");
@@ -62,23 +66,16 @@ app.get("/signers", (req, res) => {
     if (!req.cookies.signed) {
         res.redirect("/petition");
     } else {
-        db.selectNames().then(({ rows }) => {
-            console.log("response: ", rows);
-            res.render("signers", {
-                layout: "main",
-                rows: rows
+        db.selectNames()
+            .then(({ rows }) => {
+                res.render("signers", {
+                    layout: "main",
+                    names: rows,
+                });
+            })
+            .catch((err) => {
+                console.log("error in /signers sad baby face 👶", err);
             });
-        }).catch((err) => {
-            console.log("error in /signers sad baby face 👶", err);
-        });
-        db.selectNum().then(({ rows }) => {
-            console.log("response van selectNum", rows);
-            res.render("signers", {
-                layout: "main",
-                rows: rows
-            });
-        });
-
     }
 });
 
