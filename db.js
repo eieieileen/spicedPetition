@@ -1,5 +1,6 @@
 const spicedPg = require("spiced-pg");
 
+
 const db = spicedPg("postgres:postgres:postgres@localhost:5432/petition");
 
 module.exports.getAllSignatures = () => {
@@ -32,3 +33,7 @@ module.exports.urlSignature = (id) => {
     const params = [id];
     return db.query(q, params);
 };
+
+
+
+//functie in db die iets gaat invoeren in de database aka sql 

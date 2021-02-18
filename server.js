@@ -3,6 +3,8 @@ const app = express();
 const db = require("./db");
 const hb = require("express-handlebars");
 const cookieSession = require("cookie-session");
+const { hash, compare } = require("./bcrypt.js");
+
 
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
@@ -41,7 +43,7 @@ app.post("/petition", (req, res) => {
     const { signature } = req.body;
     db.addSignature(signature)
         .then(({ rows }) => {
-            req.session.signature = rows[0].id; //signature id opgeslagen
+            req.session.signature = rows[0].id; //signature id opgeslagen THIS IS HOW IK MIJN COOKIE ZET
 
             //res.cookie("signed", "true");
             res.redirect("/thanks");
@@ -80,18 +82,45 @@ app.get("/thanks", (req, res) => {
     }
 });
 
+// app.post("/register", req res) {
+//     const {firstName, password, email} = req.body;
+
+//     if (!firstName || !password || !lastname) {
+//         res.render(register", error:true, errorMessage:"please prove a first name"
+//     }
+
 app.get("/register", (req, res) => {
-    res.render("register", {
-        layout: "main"
-    });
+    // console.log("req body", req.body);
+
+    if (!req.session.loggedIn) {
+        res.render("register", {
+            layout: "main",
+        });
+    } else {
+        res.redirect("/petition");
+    }
 });
 
 app.get("/login", (req, res) => {
-    res.render("login", {
-        layout: "main"
+    if (!req.session.loggedIn) {
+        res.render("login", {
+            layout: "main",
+        });
+    } else {
+        res.redirect("/petition");
+    }
+});
+
+app.post("/register", (req, res) => {
+    const { password, email, firstName, lastName } = req.body;
+    hash(password).then((hashedPassword) => {
+        // Do what you need to do
     });
 });
 
+app.post("/login", (req, res) => {
+
+});
 
 //signers page with names
 app.get("/signers", (req, res) => {
@@ -114,4 +143,3 @@ app.get("/signers", (req, res) => {
 app.listen(8080, () =>
     console.log("✨ dont panic my queen, you got this!! ✨")
 );
-
