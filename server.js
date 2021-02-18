@@ -4,7 +4,6 @@ const db = require("./db");
 const hb = require("express-handlebars");
 const cookieSession = require("cookie-session");
 
-
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
@@ -38,12 +37,12 @@ app.get("/petition", (req, res) => {
 
 //post homepage
 app.post("/petition", (req, res) => {
-    console.log("req body", req.body);
+    //console.log("req body", req.body);
     const { firstName, lastName, signature } = req.body;
     db.addSignature(firstName, lastName, signature)
-        .then(({rows}) => {
+        .then(({ rows }) => {
             req.session.signature = rows[0].id; //signature id opgeslagen
-           
+
             //res.cookie("signed", "true");
             res.redirect("/thanks");
         })
@@ -58,16 +57,25 @@ app.post("/petition", (req, res) => {
 //after signing petition
 app.get("/thanks", (req, res) => {
     if (req.session.signature) {
-        db.selectNum().then(({ rows }) => {
-            console.log("response van selectNum", rows);
-            res.render("thanks", {
-                layout: "main",
-                count: rows,
-            });
-        });
-        
-    } else {
+        db.selectNum()
+            .then(({ rows }) => {
+                const count = rows[0].count;
+                db.urlSignature(req.session.signature)
+                    .then(({ rows }) => {
+                        const img = rows[0].signature;
+                        res.render("thanks", {
+                            layout: "main",
+                            count: count,
+                            img: img,
+                        });
+                    })
+                    .catch((err) => console.log("error in urlSignature", err));
+                // console.log("response van selectNum", rows);
+            })
+            .catch((err) => console.log("error in selectNum", err));
+
         //db query heb ik nog niet, ik wil een plaatje van de signature dus moet weten welke het is dus moet uit de database de signature halen selectsignature
+    } else {
         res.redirect("/petition");
     }
 });
