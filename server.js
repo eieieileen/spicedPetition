@@ -2,14 +2,20 @@ const express = require("express");
 const app = express();
 const db = require("./db");
 const hb = require("express-handlebars");
-const cookieParser = require("cookie-parser");
+const cookieSession = require("cookie-session");
+
 
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static("./public"));
+app.use(
+    cookieSession({
+        secret: `I'm always angry.`,
+        maxAge: 1000 * 60 * 60 * 24 * 14,
+    })
+);
 
 app.use((req, res, next) => {
     console.log(`MIDDLEWARE LOG: ${req.method} to ${req.url} route`);
@@ -20,7 +26,7 @@ app.use((req, res, next) => {
 app.get("/petition", (req, res) => {
     // const { canvas } = req.body;
     // console.log("req body canvas: ", req.body);
-    if (!req.cookies.signed) {
+    if (!req.session.signature) {
         res.render("petition", {
             layout: "main",
         });
@@ -35,8 +41,10 @@ app.post("/petition", (req, res) => {
     console.log("req body", req.body);
     const { firstName, lastName, signature } = req.body;
     db.addSignature(firstName, lastName, signature)
-        .then(() => {
-            res.cookie("signed", "true");
+        .then(({rows}) => {
+            req.session.signature = rows[0].id; //signature id opgeslagen
+           
+            //res.cookie("signed", "true");
             res.redirect("/thanks");
         })
         .catch((err) => {
@@ -49,7 +57,7 @@ app.post("/petition", (req, res) => {
 
 //after signing petition
 app.get("/thanks", (req, res) => {
-    if (req.cookies.signed) {
+    if (req.session.signature) {
         db.selectNum().then(({ rows }) => {
             console.log("response van selectNum", rows);
             res.render("thanks", {
@@ -57,13 +65,16 @@ app.get("/thanks", (req, res) => {
                 count: rows,
             });
         });
+        
     } else {
+        //db query heb ik nog niet, ik wil een plaatje van de signature dus moet weten welke het is dus moet uit de database de signature halen selectsignature
         res.redirect("/petition");
     }
 });
 
+//signers page with names
 app.get("/signers", (req, res) => {
-    if (!req.cookies.signed) {
+    if (!req.session.signature) {
         res.redirect("/petition");
     } else {
         db.selectNames()

@@ -26,3 +26,9 @@ module.exports.selectNum = () => {
     const q = `SELECT count(id) FROM signatures`;
     return db.query(q);
 };
+
+module.exports.urlSignature = (id) => {
+    const q = `SELECT * FROM id WHERE id = ($1)`;
+    const params = [id];
+    return db.query(q, params);
+};
