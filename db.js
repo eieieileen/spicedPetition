@@ -7,15 +7,15 @@ module.exports.getAllSignatures = () => {
     return db.query(q);
 };
 
-module.exports.addSignature = (first, last, signature) => {
+module.exports.addSignature = (signature, user_id) => {
     const q = `
-        INSERT INTO signatures (first, last, signature)
-        VALUES ($1, $2, $3)
+        INSERT INTO signatures (signature, user_id)
+        VALUES ($1, $2)
         RETURNING id
         `;
-    const params = [first, last, signature];
+    const params = [signature, user_id];
     return db.query(q, params);
-};
+}; 
 
 module.exports.selectNames = () => {
     const q = `SELECT first,last FROM signatures`;

@@ -38,8 +38,8 @@ app.get("/petition", (req, res) => {
 //post homepage
 app.post("/petition", (req, res) => {
     //console.log("req body", req.body);
-    const { firstName, lastName, signature } = req.body;
-    db.addSignature(firstName, lastName, signature)
+    const { signature } = req.body;
+    db.addSignature(signature)
         .then(({ rows }) => {
             req.session.signature = rows[0].id; //signature id opgeslagen
 
@@ -80,6 +80,19 @@ app.get("/thanks", (req, res) => {
     }
 });
 
+app.get("/register", (req, res) => {
+    res.render("register", {
+        layout: "main"
+    });
+});
+
+app.get("/login", (req, res) => {
+    res.render("login", {
+        layout: "main"
+    });
+});
+
+
 //signers page with names
 app.get("/signers", (req, res) => {
     if (!req.session.signature) {
@@ -101,12 +114,4 @@ app.get("/signers", (req, res) => {
 app.listen(8080, () =>
     console.log("✨ dont panic my queen, you got this!! ✨")
 );
-//console.log("db sanity: ", db);
 
-// db.getAllActors().then(({ rows }) => {
-//     console.log("rows :", rows);
-// }).catch((err) => console.log("error in db.getAllActors 🙅‍♀️", err));
-
-// db.addActor("Emma Watson", "30", 0).then(({ rows }) => {
-//     console.log("rows with Emma: ", rows);
-// }).catch((err) => console.log("error in db.addActor :(", err));
