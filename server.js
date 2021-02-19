@@ -5,7 +5,6 @@ const hb = require("express-handlebars");
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bcrypt.js");
 
-
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
@@ -22,7 +21,6 @@ app.use((req, res, next) => {
     console.log(`MIDDLEWARE LOG: ${req.method} to ${req.url} route`);
     next();
 });
-
 
 app.get("/", (req, res) => {
     res.redirect("/petition");
@@ -87,16 +85,7 @@ app.get("/thanks", (req, res) => {
     }
 });
 
-// app.post("/register", req res) {
-//     const {firstName, password, email} = req.body;
-
-//     if (!firstName || !password || !lastname) {
-//         res.render(register", error:true, errorMessage:"please prove a first name"
-//     }
-
 app.get("/register", (req, res) => {
-    // console.log("req body", req.body);
-
     if (!req.session.loggedIn) {
         res.render("register", {
             layout: "main",
@@ -116,16 +105,42 @@ app.get("/login", (req, res) => {
     }
 });
 
+//catch in posts with errors
+
 app.post("/register", (req, res) => {
-    const { password, email, firstName, lastName } = req.body;
-    hash(password).then((hashedPassword) => {
-        // Do what you need to do
+    //validate user input:
+    const { password_hash, email, first_name, last_name } = req.body;
+    db.addUser(password_hash, email, first_name, last_name).then((response) => {
+        console.log("response van register", response);
+    }).catch((err) => console.log("error in post /register 🥵", err));
+
+    // .then(({ rows }) => {
+    //     res.render("signers", {
+    //         layout: "main",
+    //         names: rows,
+    //     });
+    // })
+    // .catch((err) => {
+    //     console.log("error in /signers sad baby face 👶", err);
+    // });
+
+    hash(password_hash).then((hashedPassword) => {
+        console.log("req body after has password", req.body);
     });
+
+    // compare(
+    //     password, // Plain text from User
+    //     passwordHash // Hash from Database
+    // ).then((match) => {
+    //     // Do what you need to do.
+    //     // match will be true or false ;)
+    // });
+    //db quera maken wwaar ik first name last name password invoer en email e
 });
 
-app.post("/login", (req, res) => {
-
-});
+// app.post("/login", (req, res) => {
+//     console.log("req body post login", req.body);
+// });
 
 //signers page with names
 app.get("/signers", (req, res) => {

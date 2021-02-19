@@ -34,6 +34,18 @@ module.exports.urlSignature = (id) => {
     return db.query(q, params);
 };
 
+module.exports.addUser = (first_name, last_name, password_hash, email) => {
+    const q = `
+        INSERT INTO users (first_name, last_name, password_hash, email)
+        VALUES ($1, $2, $3, $4)
+        `;
+    const params = [first_name, last_name, password_hash, email];
+    return db.query(q, params);
+}; 
+
+module.exports.loggedIn = (email, password_hash) => {
+    const q = `SELECT `
+}
 
 
 //functie in db die iets gaat invoeren in de database aka sql 
