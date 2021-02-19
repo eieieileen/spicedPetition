@@ -23,6 +23,11 @@ app.use((req, res, next) => {
     next();
 });
 
+
+app.get("/", (req, res) => {
+    res.redirect("/petition");
+});
+
 //homepage
 app.get("/petition", (req, res) => {
     // const { canvas } = req.body;
