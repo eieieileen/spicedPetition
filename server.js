@@ -28,9 +28,7 @@ app.get("/", (req, res) => {
 
 //homepage
 app.get("/petition", (req, res) => {
-    // const { canvas } = req.body;
-    // console.log("req body canvas: ", req.body);
-    if (!req.session.signature) {
+    if (!req.session.signature && req.session.loggedIn) {
         res.render("petition", {
             layout: "main",
         });
@@ -44,7 +42,7 @@ app.get("/petition", (req, res) => {
 app.post("/petition", (req, res) => {
     //console.log("req body", req.body);
     const { signature } = req.body;
-    db.addSignature(signature)
+    db.addSignature(signature, req.session.loggedIn)
         .then(({ rows }) => {
             req.session.signature = rows[0].id; //signature id opgeslagen THIS IS HOW IK MIJN COOKIE ZET
 
@@ -109,38 +107,68 @@ app.get("/login", (req, res) => {
 
 app.post("/register", (req, res) => {
     //validate user input:
-    const { password_hash, email, first_name, last_name } = req.body;
-    db.addUser(password_hash, email, first_name, last_name).then((response) => {
-        console.log("response van register", response);
-    }).catch((err) => console.log("error in post /register 🥵", err));
+    const { password, email, firstName, lastName } = req.body;
+    hash(password)
+        .then((hashedPassword) => {
+            db.addUser(firstName, lastName, hashedPassword, email)
+                .then(({ rows }) => {
+                    req.session.loggedIn = rows[0].id;
+                    console.log("response van register", rows);
+                    res.redirect("/profile");
+                })
 
-    // .then(({ rows }) => {
-    //     res.render("signers", {
-    //         layout: "main",
-    //         names: rows,
-    //     });
-    // })
-    // .catch((err) => {
-    //     console.log("error in /signers sad baby face 👶", err);
-    // });
+                .catch((err) => {
+                    console.log("error in post /register 🥵", err);
+                    res.render("register", {
+                        err: true,
+                    });
+                });
+        })
+        .catch((err) => {
+            console.log("err hashing pw: ", err);
+        });
 
-    hash(password_hash).then((hashedPassword) => {
-        console.log("req body after has password", req.body);
-    });
-
-    // compare(
-    //     password, // Plain text from User
-    //     passwordHash // Hash from Database
-    // ).then((match) => {
-    //     // Do what you need to do.
-    //     // match will be true or false ;)
-    // });
     //db quera maken wwaar ik first name last name password invoer en email e
 });
 
-// app.post("/login", (req, res) => {
-//     console.log("req body post login", req.body);
-// });
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    db.checkPassword(email)
+        .then(({ rows }) => {
+            const id = rows[0].id;
+            compare(password, rows[0].password_hash).then((match) => {
+                db.urlSignature(id)
+                    .then(({ rows }) => {
+                        if (rows[0].user_id) {
+                            if (match == true) {
+                                req.session.signature = rows[0].user_id;
+                                req.session.loggedIn = id;
+                                res.redirect("/petition");
+                            } else {
+                                res.render("login", {
+                                    err: true,
+                                });
+                            }
+                            console.log("match", match);
+                        } else {
+                            req.session.loggedIn = id;
+                            res.redirect("/thanks");
+                        }
+                    })
+                    .catch((err) =>
+                        console.log("error in db.urlSignature 👩‍🦰", err)
+                    );
+            });
+            console.log("response from checkPW", { rows });
+        })
+        .catch((err) => {
+            console.log("error in checkPassword🤬", err);
+            res.render("login", {
+                err: true,
+            });
+        });
+    // res.redirect("/petition");
+});
 
 //signers page with names
 app.get("/signers", (req, res) => {
@@ -158,6 +186,20 @@ app.get("/signers", (req, res) => {
                 console.log("error in /signers sad baby face 👶", err);
             });
     }
+});
+
+app.get("/profile", (req, res) => {
+    res.render("profile", {
+        layout: "main",
+    });
+});
+
+app.post("/profile", (req, res) => {
+    
+    const { age, city, url } = req.body;
+    db.profilePage(age, city, url, req.session.loggedIn).then(() => {
+        res.redirect("/petition");
+    }).catch((err) => console.log("error in /profile 🐝", err));
 });
 
 app.listen(8080, () =>
