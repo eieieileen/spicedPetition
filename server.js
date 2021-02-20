@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-    res.redirect("/petition");
+    res.redirect("/register");
 });
 
 //homepage
@@ -174,6 +174,7 @@ app.post("/login", (req, res) => {
 
 //signers page with names
 app.get("/signers", (req, res) => {
+    
     if (!req.session.signature) {
         res.redirect("/petition");
     } else {
@@ -199,12 +200,7 @@ app.get("/profile", (req, res) => {
         res.redirect("/login");
     }
 });
-//     // let newUrl = url;
 
-//     // if (url.indexOf("http://")) {
-//     //     newUrl = "http://" + url;
-//     // }
-//     // console.log("newUrl", newUrl);
 
 app.post("/profile", (req, res) => {
     const { age, city, url } = req.body;

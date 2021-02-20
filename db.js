@@ -18,7 +18,7 @@ module.exports.addSignature = (signature, user_id) => {
 };
 
 module.exports.selectNames = () => {
-    const q = `SELECT first_name,last_name FROM users`;
+    const q = `SELECT first_name,last_name,id FROM users`;
     return db.query(q);
 };
 
@@ -57,5 +57,10 @@ module.exports.profilePage = (age, city, url, user_id) => {
     const params = [age, city, url, user_id];
     return db.query(q, params);
 };
+
+module.exports.getProfile = (age, city, url) => {
+    const q = `SELECT age,city,url,name FROM profile`
+};
+
 
 //functie in db die iets gaat invoeren in de database aka sql

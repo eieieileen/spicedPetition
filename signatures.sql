@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS signatures;
-DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS user_profiles;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id            SERIAL PRIMARY KEY,
@@ -20,7 +20,7 @@ CREATE TABLE signatures (
 
 CREATE TABLE user_profiles(
 id SERIAL PRIMARY KEY,
-age INT, 
+age VARCHAR(2), 
 city VARCHAR(100),
 url VARCHAR(300),
 user_id INT REFERENCES users(id) NOT NULL UNIQUE);
