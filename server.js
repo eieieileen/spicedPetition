@@ -32,20 +32,24 @@ app.get("/petition", (req, res) => {
         res.render("petition", {
             layout: "main",
         });
-    } else {
-        console.log("cookies accepted yaaay!");
+    } else if (req.session.signature && req.session.loggedIn) {
         res.redirect("/thanks");
+    } else {
+        res.redirect("/login");
     }
+    // } else {
+    //     console.log("cookies accepted yaaay!");
+    //     res.redirect("/register");
+    // }
 });
 
 //post homepage
 app.post("/petition", (req, res) => {
-    //console.log("req body", req.body);
+    console.log("req sessuib", req.session.loggedIn);
     const { signature } = req.body;
     db.addSignature(signature, req.session.loggedIn)
         .then(({ rows }) => {
-            req.session.signature = rows[0].id; //signature id opgeslagen THIS IS HOW IK MIJN COOKIE ZET
-
+            req.session.signature = rows[0].user_id; //signature id opgeslagen THIS IS HOW IK MIJN COOKIE ZET
             //res.cookie("signed", "true");
             res.redirect("/thanks");
         })
@@ -73,7 +77,7 @@ app.get("/thanks", (req, res) => {
                         });
                     })
                     .catch((err) => console.log("error in urlSignature", err));
-                // console.log("response van selectNum", rows);
+                console.log("response van selectNum", rows);
             })
             .catch((err) => console.log("error in selectNum", err));
 
@@ -113,10 +117,8 @@ app.post("/register", (req, res) => {
             db.addUser(firstName, lastName, hashedPassword, email)
                 .then(({ rows }) => {
                     req.session.loggedIn = rows[0].id;
-                    console.log("response van register", rows);
                     res.redirect("/profile");
                 })
-
                 .catch((err) => {
                     console.log("error in post /register 🥵", err);
                     res.render("register", {
@@ -189,17 +191,22 @@ app.get("/signers", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-    res.render("profile", {
-        layout: "main",
-    });
+    if (req.session.loggedIn) {
+        res.render("profile", {
+            layout: "main",
+        });
+    } else {
+        res.redirect("/login");
+    }
 });
 
 app.post("/profile", (req, res) => {
-    
     const { age, city, url } = req.body;
-    db.profilePage(age, city, url, req.session.loggedIn).then(() => {
-        res.redirect("/petition");
-    }).catch((err) => console.log("error in /profile 🐝", err));
+    db.profilePage(age, city, url, req.session.loggedIn)
+        .then(() => {
+            res.redirect("/petition");
+        })
+        .catch((err) => console.log("error in /profile 🐝", err));
 });
 
 app.listen(8080, () =>

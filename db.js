@@ -11,14 +11,14 @@ module.exports.addSignature = (signature, user_id) => {
     const q = `
         INSERT INTO signatures (signature, user_id)
         VALUES ($1, $2)
-        RETURNING id
+        RETURNING user_id
         `;
     const params = [signature, user_id];
     return db.query(q, params);
 };
 
 module.exports.selectNames = () => {
-    const q = `SELECT first,last FROM signatures`;
+    const q = `SELECT first_name,last_name FROM users`;
     return db.query(q);
 };
 
@@ -53,7 +53,7 @@ module.exports.profilePage = (age, city, url, user_id) => {
     //maybe also insert user_id as a parameter
     const q = `INSERT INTO user_profiles (age, city, url, user_id)
     VALUES ($1, $2, $3, $4)
-    RETURNING id`;
+    RETURNING user_id`;
     const params = [age, city, url, user_id];
     return db.query(q, params);
 };

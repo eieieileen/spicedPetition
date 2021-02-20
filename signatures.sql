@@ -13,7 +13,7 @@ CREATE TABLE users (
 
 CREATE TABLE signatures (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL UNIQUE REFERENCES users (id),
+    user_id INTEGER NOT NULL UNIQUE REFERENCES users(id),
     signature TEXT NOT NULL CHECK (signature != ''),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
