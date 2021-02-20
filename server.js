@@ -199,10 +199,22 @@ app.get("/profile", (req, res) => {
         res.redirect("/login");
     }
 });
+//     // let newUrl = url;
+
+//     // if (url.indexOf("http://")) {
+//     //     newUrl = "http://" + url;
+//     // }
+//     // console.log("newUrl", newUrl);
 
 app.post("/profile", (req, res) => {
     const { age, city, url } = req.body;
-    db.profilePage(age, city, url, req.session.loggedIn)
+    let newUrl = url;
+
+    if (!url.startsWith("http://") || !url.startsWith("https://")) {
+        newUrl = "http://" + url;
+    }
+
+    db.profilePage(age, city, newUrl, req.session.loggedIn)
         .then(() => {
             res.redirect("/petition");
         })
