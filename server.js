@@ -4,6 +4,7 @@ const db = require("./db");
 const hb = require("express-handlebars");
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bcrypt.js");
+const { setRandomFallback } = require("bcryptjs");
 
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
@@ -174,7 +175,6 @@ app.post("/login", (req, res) => {
 
 //signers page with names
 app.get("/signers", (req, res) => {
-    
     if (!req.session.signature) {
         res.redirect("/petition");
     } else {
@@ -201,6 +201,16 @@ app.get("/profile", (req, res) => {
     }
 });
 
+//  if (!req.session.signature) {
+//         db.profilePage(age, city, newUrl, req.session.loggedIn)
+//             .then(() => {
+//                 res.redirect("/petition");
+//             })
+//             .catch((err) => console.log("error in /profile 🐝", err));
+
+//     } else {
+//         db.getProfile(id).then(() =>)
+//     }
 
 app.post("/profile", (req, res) => {
     const { age, city, url } = req.body;

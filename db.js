@@ -58,8 +58,16 @@ module.exports.profilePage = (age, city, url, user_id) => {
     return db.query(q, params);
 };
 
-module.exports.getProfile = (age, city, url) => {
-    const q = `SELECT age,city,url,name FROM profile`
+module.exports.getProfile = (id) => {
+    const q = `SELECT users.first_name,users.last_name,user_profiles.age,user_profiles.city,user_profiles.url,signatures.user_id 
+    FROM users 
+    INNER JOIN user_profiles 
+    ON users.id = user_profiles.user_id 
+    WHERE users.id = $1 
+    AND LOWER(user_profiles.city) = LOWER($2);
+`; //omg
+    const params = [id];
+    return db.query(q, params);
 };
 
 

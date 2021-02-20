@@ -24,3 +24,5 @@ age VARCHAR(2),
 city VARCHAR(100),
 url VARCHAR(300),
 user_id INT REFERENCES users(id) NOT NULL UNIQUE);
+
+-- SELECT users.first_name,users.last_name,user_profiles.age,user_profiles.city,user_profiles.url FROM users JOIN user_profiles ON users.id = user_profiles.user_id WHERE users.id = $1;
