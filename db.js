@@ -52,23 +52,31 @@ module.exports.checkPassword = (email) => {
 module.exports.profilePage = (age, city, url, user_id) => {
     //maybe also insert user_id as a parameter
     const q = `INSERT INTO user_profiles (age, city, url, user_id)
-    VALUES ($1, $2, $3, $4)
+    VALUES ($1, LOWER($2), $3, $4)
     RETURNING user_id`;
     const params = [age, city, url, user_id];
     return db.query(q, params);
 };
 
-module.exports.getProfile = (id) => {
+module.exports.getProfile = () => {
     const q = `SELECT users.first_name,users.last_name,user_profiles.age,user_profiles.city,user_profiles.url,signatures.user_id 
     FROM users 
     INNER JOIN user_profiles 
     ON users.id = user_profiles.user_id 
-    WHERE users.id = $1 
-    AND LOWER(user_profiles.city) = LOWER($2);
+    INNER JOIN signatures
+    ON users.id = signatures.user_id
 `; //omg
-    const params = [id];
-    return db.query(q, params);
+    return db.query(q);
 };
 
+module.exports.getCity = (city) => {
+    const q = `SELECT users.first_name,users.last_name,user_profiles.age,user_profiles.url
+    FROM users
+    JOIN user_profiles
+    ON users.id = user_profiles.user_id
+    WHERE user_profiles.city = ($1)`;
+    const params = [city];
+    return db.query(q, params);
+};
 
 //functie in db die iets gaat invoeren in de database aka sql

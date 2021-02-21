@@ -175,20 +175,36 @@ app.post("/login", (req, res) => {
 
 //signers page with names
 app.get("/signers", (req, res) => {
+    // const { id } = req.body;
+    // db.getProfile()
+    //     .then(({ rows }) => {
+    //         console.log(rows);
+    //     })
+    //     .catch((err) => console.log("error in /signers.getProfile 🦑", err));
     if (!req.session.signature) {
         res.redirect("/petition");
     } else {
-        db.selectNames()
+        db.getProfile()
             .then(({ rows }) => {
+                const profile = rows;
+                console.log("rows", rows);
                 res.render("signers", {
                     layout: "main",
-                    names: rows,
+                    profile: profile,
                 });
             })
-            .catch((err) => {
-                console.log("error in /signers sad baby face 👶", err);
-            });
+            .catch((err) => console.log("err in db.getProfile 📛", err));
     }
+});
+
+app.get("/signers/*", (req, res) => {
+    console.log("req.params", req.params[0]);
+    db.getCity(req.params[0]).then(({rows}) => {
+        res.render("signers", {
+            layout: "main",
+            profile: rows
+        });
+    }).catch((err) => console.log("error in getCity🆙", err));
 });
 
 app.get("/profile", (req, res) => {
@@ -200,17 +216,6 @@ app.get("/profile", (req, res) => {
         res.redirect("/login");
     }
 });
-
-//  if (!req.session.signature) {
-//         db.profilePage(age, city, newUrl, req.session.loggedIn)
-//             .then(() => {
-//                 res.redirect("/petition");
-//             })
-//             .catch((err) => console.log("error in /profile 🐝", err));
-
-//     } else {
-//         db.getProfile(id).then(() =>)
-//     }
 
 app.post("/profile", (req, res) => {
     const { age, city, url } = req.body;
