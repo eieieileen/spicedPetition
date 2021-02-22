@@ -235,6 +235,6 @@ app.get("/logout", (req, res) => {
     res.redirect("register");
 });
 
-app.listen(8080, () =>
+app.listen(process.env.PORT || 8080, () =>
     console.log("✨ dont panic my queen, you got this!! ✨")
 );

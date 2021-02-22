@@ -1,6 +1,17 @@
+
+//when we have secrets
+// let db;
+// if (process.send.DATABASE_URL) {
+//     //running in production
+//     db = spicedPg(process.env.DATABASE_URL);
+// } else {
+//     const { dbuser, dbpass } = require("../secrets.json");
+//     db = spicedPg(`postgres:${dbuser}:${dbpass}@localhost:5432/petition`)
+// }
+
 const spicedPg = require("spiced-pg");
 
-const db = spicedPg("postgres:postgres:postgres@localhost:5432/petition");
+const db = spicedPg(process.env.DATABASE_URL || "postgres:postgres:postgres@localhost:5432/petition");
 
 module.exports.getAllSignatures = () => {
     const q = `SELECT * FROM signatures`;
