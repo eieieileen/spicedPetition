@@ -170,17 +170,12 @@ app.post("/login", (req, res) => {
                 err: true,
             });
         });
-    // res.redirect("/petition");
 });
+
+
 
 //signers page with names
 app.get("/signers", (req, res) => {
-    // const { id } = req.body;
-    // db.getProfile()
-    //     .then(({ rows }) => {
-    //         console.log(rows);
-    //     })
-    //     .catch((err) => console.log("error in /signers.getProfile 🦑", err));
     if (!req.session.signature) {
         res.redirect("/petition");
     } else {
@@ -230,6 +225,14 @@ app.post("/profile", (req, res) => {
             res.redirect("/petition");
         })
         .catch((err) => console.log("error in /profile 🐝", err));
+});
+
+app.get("/logout", (req, res) => {
+    console.log("I am logged out whieeeeh");
+    //cookies resetten en redirecten naar register
+    // req.logout();
+    req.session = null;
+    res.redirect("register");
 });
 
 app.listen(8080, () =>
