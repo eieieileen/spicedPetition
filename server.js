@@ -256,10 +256,11 @@ app.post("/edit", (req, res) => {
     const { firstName, lastName, email, password, age, city, url } = req.body;
     if (password != "") {
         hash(password).then((hashedPassword) => {
-            db.updateUsersWithPassword(firstName, lastName, email, hashedPassword, age, city, url, req.session.loggedIn).then(() => {
-                res.render("edit", {
-                    layout: "main"
-                });
+            db.updateUsersWithPassword(firstName, lastName, email, hashedPassword, req.session.loggedIn).then(() => {
+                db.firstUpsert(age, city, url, req.session.loggedIn).then(() => {
+                    res.redirect("/thanks");
+                    
+                }).catch((err) => console.log("error in firstUpserrt 🏓", err));
 
             }).catch((err) => console.log("error in updateUsersWithPassword 🏋️‍♀️", err));
         }).catch((err) => console.log("error password Hash /edit 🏋️‍♀️", err));

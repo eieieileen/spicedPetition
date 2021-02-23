@@ -116,6 +116,24 @@ module.exports.updateUsersWithPassword = (
     return db.query(q, params);
 };
 
+module.exports.firstUpsert = (age, city, url, user_id) => {
+    const q = `INSERT INTO user_profiles (age, city, url, user_id)
+    VALUES ($1, $2, $3, $4)
+    ON CONFLICT (user_id)
+    DO UPDATE SET age=($1), city=($2), url=($3), user_id=($4)`;
+    const params = [age, city, url, user_id];
+    return db.query(q, params);
+};
+// INSERT INTO user_profiles (age, city, url, user_id)
+//     VALUES ($1), ($2), ($3), ($4)
+//     ON CONFLICT (user_id)
+//     DO UPDATE SET age=($1), city=($2), url=($3), user_id=(4)`;
+
+// INSERT INTO actors (name, age, oscars)
+// VALUES ('Ingrid Bergman', 67, 4)
+// ON CONFLICT  (name) // unique value
+// DO UPDATE SET age=67, oscars=4;
+
 
 
 // If user enters a new password - you'll need to run 2 queries!

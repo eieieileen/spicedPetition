@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS signatures;
+iDROP TABLE IF EXISTS signatures;
 DROP TABLE IF EXISTS user_profiles;
 DROP TABLE IF EXISTS users;
 
