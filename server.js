@@ -238,22 +238,40 @@ app.get("/logout", (req, res) => {
 app.get("/edit", (req, res) => {
     if (req.session.loggedIn) {
         // console.log("req.paarams", req.params);
-        db.editProfile(req.session.loggedIn).then(({rows}) => {
-            const edit = rows;
-            res.render("edit", {
-                layout: "main",
-                edit: edit,
-            });
-        }).catch((err) => console.log("error in get /edit", err));
+        db.editProfile(req.session.loggedIn)
+            .then(({ rows }) => {
+                const edit = rows;
+                res.render("edit", {
+                    layout: "main",
+                    edit: edit,
+                });
+            })
+            .catch((err) => console.log("error in get /edit", err));
     } else {
         res.redirect("/register");
     }
 });
 
 app.post("/edit", (req, res) => {
+    const { firstName, lastName, email, password, age, city, url } = req.body;
+    if (password != "") {
+        hash(password).then((hashedPassword) => {
+            db.updateUsersWithPassword(firstName, lastName, email, hashedPassword, age, city, url, req.session.loggedIn).then(() => {
+                res.render("edit", {
+                    layout: "main"
+                });
 
+            }).catch((err) => console.log("error in updateUsersWithPassword 🏋️‍♀️", err));
+        }).catch((err) => console.log("error password Hash /edit 🏋️‍♀️", err));
+        // hash the new password
+        // update 4 columns in users table
+        // run upsert for user_profiles
+    } else {
+        // update 3 columns in users table
+        // run upsert for user_profiles
+    }
 });
 
 app.listen(process.env.PORT || 8080, () =>
-    console.log("✨ dont panic my queen, you got this!! ✨")
+    console.log(" ✨ dont panic my queen, you got this!! ✨")
 );

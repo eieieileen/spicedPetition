@@ -1,4 +1,3 @@
-
 //when we have secrets
 // let db;
 // if (process.send.DATABASE_URL) {
@@ -11,7 +10,10 @@
 
 const spicedPg = require("spiced-pg");
 
-const db = spicedPg(process.env.DATABASE_URL || "postgres:postgres:postgres@localhost:5432/petition");
+const db = spicedPg(
+    process.env.DATABASE_URL ||
+        "postgres:postgres:postgres@localhost:5432/petition"
+);
 
 module.exports.getAllSignatures = () => {
     const q = `SELECT * FROM signatures`;
@@ -100,4 +102,21 @@ module.exports.editProfile = (id) => {
     return db.query(q, params);
 };
 
-//functie in db die iets gaat invoeren in de database aka sql
+module.exports.updateUsersWithPassword = (
+    first_name,
+    last_name,
+    email,
+    password,
+    id
+) => {
+    const q = `UPDATE users
+    SET first_name = ($1), last_name = ($2), email = ($3), password_hash = ($4)
+    WHERE id = ($5)`;
+    const params = [first_name, last_name, email, password, id];
+    return db.query(q, params);
+};
+
+
+
+// If user enters a new password - you'll need to run 2 queries!
+// 1st query - updates users & should update 4 columns (first, last, email & password)
