@@ -2,6 +2,7 @@
     <input type="email" id="email" required name="email">Email
     <input type="password" id="password" required name="password">Password
     <button type="submit" id="loginB">LOG IN</button>
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
 </form>
  {{#if err}}
     <p>ERROR IN LOGIN UNFORTUNATELY PEANUTBUTTER</p>

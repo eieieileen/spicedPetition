@@ -4,6 +4,8 @@
     <input type="email" id="email" required name="email">Email
     <input type="password" id="password" required name="password">Password
 
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
     <button type="submit" id="registerB">SUBMIT</button>
 </form>
  {{#if err}}

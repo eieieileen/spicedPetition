@@ -5,6 +5,7 @@ const hb = require("express-handlebars");
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bcrypt.js");
 const { setRandomFallback } = require("bcryptjs");
+const csurf = require("csurf");
 
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
@@ -20,6 +21,13 @@ app.use(
 
 app.use((req, res, next) => {
     console.log(`MIDDLEWARE LOG: ${req.method} to ${req.url} route`);
+    next();
+});
+
+app.use(csurf());
+
+app.use(function (req, res, next) {
+    res.locals.csrfToken = req.csrfToken();
     next();
 });
 
@@ -89,10 +97,12 @@ app.get("/thanks", (req, res) => {
 });
 
 app.post("/thanks", (req, res) => {
-    db.deleteSignature(req.session.loggedIn).then(() => {
-        req.session.signature = null;
-        res.redirect("/petition");
-    }).catch((err) => console.log("error in deleteSignature", err));
+    db.deleteSignature(req.session.loggedIn)
+        .then(() => {
+            req.session.signature = null;
+            res.redirect("/petition");
+        })
+        .catch((err) => console.log("error in deleteSignature", err));
 });
 
 app.get("/register", (req, res) => {

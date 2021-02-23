@@ -12,6 +12,7 @@
     <input type="text" id="url" value={{url}} name="url">url
     {{!-- <input type="text" id="url" name="url">url 
     hidden csurf!!!!!!--}} 
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
     {{/edit}}
     <button type="submit" id="registerB">SUBMIT</button>
