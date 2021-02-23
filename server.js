@@ -172,8 +172,6 @@ app.post("/login", (req, res) => {
         });
 });
 
-
-
 //signers page with names
 app.get("/signers", (req, res) => {
     if (!req.session.signature) {
@@ -194,12 +192,14 @@ app.get("/signers", (req, res) => {
 
 app.get("/signers/*", (req, res) => {
     console.log("req.params", req.params[0]);
-    db.getCity(req.params[0]).then(({rows}) => {
-        res.render("signers", {
-            layout: "main",
-            profile: rows
-        });
-    }).catch((err) => console.log("error in getCity🆙", err));
+    db.getCity(req.params[0])
+        .then(({ rows }) => {
+            res.render("signers", {
+                layout: "main",
+                profile: rows,
+            });
+        })
+        .catch((err) => console.log("error in getCity🆙", err));
 });
 
 app.get("/profile", (req, res) => {
@@ -233,6 +233,25 @@ app.get("/logout", (req, res) => {
     // req.logout();
     req.session = null;
     res.redirect("register");
+});
+
+app.get("/edit", (req, res) => {
+    if (req.session.loggedIn) {
+        // console.log("req.paarams", req.params);
+        db.editProfile(req.session.loggedIn).then(({rows}) => {
+            const edit = rows;
+            res.render("edit", {
+                layout: "main",
+                edit: edit,
+            });
+        }).catch((err) => console.log("error in get /edit", err));
+    } else {
+        res.redirect("/register");
+    }
+});
+
+app.post("/edit", (req, res) => {
+
 });
 
 app.listen(process.env.PORT || 8080, () =>

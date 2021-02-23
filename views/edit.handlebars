@@ -1,0 +1,24 @@
+<h1>Here you can edit your profile</h1>
+{{!-- //loopen door de rows --}}
+ 
+<form method="POST">
+    {{#edit}}
+    <input type="text" id="firstName" value={{first_name}} name="firstName">first name
+    <input type="text" id="lastName" value={{last_name}} name="lastName">last name
+    <input type="email" id="email" value={{email}} name="email">email
+    <input type="password" id="password" name="password">password
+    <input type="text" id="age"  value={{age}} name="age">age
+    <input type="text" id="city" value={{city}} name="city">city
+    <input type="text" id="url" value={{url}} name="url">url
+    {{!-- <input type="text" id="url" name="url">url 
+    hidden csurf!!!!!!--}} 
+
+    {{/edit}}
+    <button type="submit" id="registerB">SUBMIT</button>
+</form>
+{{> header }}
+
+
+{{!-- you'll need a total of 8 input fields - 
+first, last, email, password, age, 
+city, url, AND a hidden csrf input field --}}

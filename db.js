@@ -90,4 +90,14 @@ module.exports.getCity = (city) => {
     return db.query(q, params);
 };
 
+module.exports.editProfile = (id) => {
+    const q = `SELECT users.first_name, users.last_name, users.email, user_profiles.age, user_profiles.city, user_profiles.url
+    FROM users
+    JOIN user_profiles
+    ON users.id = user_profiles.user_id
+    WHERE users.id = ($1)`;
+    const params = [id];
+    return db.query(q, params);
+};
+
 //functie in db die iets gaat invoeren in de database aka sql
