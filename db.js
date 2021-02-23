@@ -116,7 +116,7 @@ module.exports.updateUsersWithPassword = (
     return db.query(q, params);
 };
 
-module.exports.firstUpsert = (age, city, url, user_id) => {
+module.exports.profileUpdate = (age, city, url, user_id) => {
     const q = `INSERT INTO user_profiles (age, city, url, user_id)
     VALUES ($1, $2, $3, $4)
     ON CONFLICT (user_id)
@@ -124,17 +124,31 @@ module.exports.firstUpsert = (age, city, url, user_id) => {
     const params = [age, city, url, user_id];
     return db.query(q, params);
 };
-// INSERT INTO user_profiles (age, city, url, user_id)
-//     VALUES ($1), ($2), ($3), ($4)
-//     ON CONFLICT (user_id)
-//     DO UPDATE SET age=($1), city=($2), url=($3), user_id=(4)`;
 
-// INSERT INTO actors (name, age, oscars)
-// VALUES ('Ingrid Bergman', 67, 4)
-// ON CONFLICT  (name) // unique value
-// DO UPDATE SET age=67, oscars=4;
+module.exports.updateUsersNoPassword = (
+    first_name,
+    last_name,
+    email,
+    id
+) => {
+    const q = `UPDATE users
+    SET first_name = ($1), last_name = ($2), email = ($3)
+    WHERE id = ($4)`;
+    const params = [first_name, last_name, email, id];
+    return db.query(q, params);
+};
+
+module.exports.deleteSignature = (id) => {
+    const q = `DELETE FROM signatures WHERE user_id = ($1)`;
+    const params = [id];
+    return db.query(q, params);
+};
 
 
+// module.exports.urlSignature = (id) => {
+//     const q = `SELECT * FROM signatures WHERE user_id = ($1)`;
+//     const params = [id];
+//     return db.query(q, params);
+// };
 
-// If user enters a new password - you'll need to run 2 queries!
-// 1st query - updates users & should update 4 columns (first, last, email & password)
+// DELETE FROM actors WHERE id = 7;

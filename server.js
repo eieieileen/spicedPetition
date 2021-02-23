@@ -88,6 +88,13 @@ app.get("/thanks", (req, res) => {
     }
 });
 
+app.post("/thanks", (req, res) => {
+    db.deleteSignature(req.session.loggedIn).then(() => {
+        req.session.signature = null;
+        res.redirect("/petition");
+    }).catch((err) => console.log("error in deleteSignature", err));
+});
+
 app.get("/register", (req, res) => {
     if (!req.session.loggedIn) {
         res.render("register", {
@@ -255,19 +262,46 @@ app.get("/edit", (req, res) => {
 app.post("/edit", (req, res) => {
     const { firstName, lastName, email, password, age, city, url } = req.body;
     if (password != "") {
-        hash(password).then((hashedPassword) => {
-            db.updateUsersWithPassword(firstName, lastName, email, hashedPassword, req.session.loggedIn).then(() => {
-                db.firstUpsert(age, city, url, req.session.loggedIn).then(() => {
-                    res.redirect("/thanks");
-                    
-                }).catch((err) => console.log("error in firstUpserrt 🏓", err));
-
-            }).catch((err) => console.log("error in updateUsersWithPassword 🏋️‍♀️", err));
-        }).catch((err) => console.log("error password Hash /edit 🏋️‍♀️", err));
-        // hash the new password
-        // update 4 columns in users table
-        // run upsert for user_profiles
+        hash(password)
+            .then((hashedPassword) => {
+                db.updateUsersWithPassword(
+                    firstName,
+                    lastName,
+                    email,
+                    hashedPassword,
+                    req.session.loggedIn
+                )
+                    .then(() => {
+                        db.profileUpdate(age, city, url, req.session.loggedIn)
+                            .then(() => {
+                                res.redirect("/thanks");
+                            })
+                            .catch((err) =>
+                                console.log("error in firstUpserrt 🏓", err)
+                            );
+                    })
+                    .catch((err) =>
+                        console.log("error in updateUsersWithPassword 🏋️‍♀️", err)
+                    );
+            })
+            .catch((err) => console.log("error password Hash /edit 🏋️‍♀️", err));
     } else {
+        db.updateUsersNoPassword(
+            firstName,
+            lastName,
+            email,
+            req.session.loggedIn
+        )
+            .then(() => {
+                db.profileUpdate(age, city, url, req.session.loggedIn)
+                    .then(() => {
+                        res.redirect("/thanks");
+                    })
+                    .catch((err) =>
+                        console.log("error in profile update 🏰", err)
+                    );
+            })
+            .catch((err) => console.log("error in update NOOOO users 🩰", err));
         // update 3 columns in users table
         // run upsert for user_profiles
     }
