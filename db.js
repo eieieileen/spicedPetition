@@ -144,6 +144,14 @@ module.exports.deleteSignature = (id) => {
     return db.query(q, params);
 };
 
+// module.exports.deleteUsers = (first_name, last_name, password_hash, email) => {
+//     const q = `DELETE FROM users WHERE user_id = ($1)`;
+//     const params = [first_name, last_name, password_hash, email];
+//     return db.query(q, params);
+// };
+
+// module.exports.deleteUser_profiles = 
+
 
 // module.exports.urlSignature = (id) => {
 //     const q = `SELECT * FROM signatures WHERE user_id = ($1)`;
