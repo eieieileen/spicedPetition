@@ -12,11 +12,11 @@
 
   <div id="register">
     <form method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <input type="text" id="firstName" placeholder="Harry" name="firstName">
     <input type="text" id="lastName" placeholder="Potter" name="lastName">
     <input type="email" id="email" placeholder="harry.potter@hogwarts.com" required name="email">
     <input type="password" id="password" placeholder="password" required name="password">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
 
     <button type="submit" id="registerB">ALOHOMORA</button>

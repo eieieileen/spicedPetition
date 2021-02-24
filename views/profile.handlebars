@@ -6,11 +6,11 @@
 <form method="POST">
 
   <div id="profile">
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <input type="text" id="age" placeholder="11" name="age">
     <input type="text" id="city" placeholder="Hogsmeade" name="city">
     <input type="text" id="url" placeholder="www.hogwarts.com" name="url">
 
-  <input type="hidden" name="_csrf" value="{{csrfToken}}">
   </div>
 
     <button type="submit" id="registerProfile">ALOHOMORA</button>

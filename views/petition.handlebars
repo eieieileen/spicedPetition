@@ -7,12 +7,12 @@
 
 <div id="petition">
 <form method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
     
 
     <input id="signature" type="hidden" name="signature">
 
     <canvas id="canvas" width="600" height="150" name="canvas"></canvas>
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
 
     <button id="registerB" type="submit">ALOHOMORA</button>

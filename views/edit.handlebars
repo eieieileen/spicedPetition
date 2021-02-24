@@ -5,6 +5,7 @@
 
  <div id="edit-profile">
 <form method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
     {{#edit}}
     <input type="text" id="firstName" value={{first_name}} name="firstName">
     <input type="text" id="lastName" value={{last_name}} name="lastName">
@@ -17,7 +18,6 @@
     hidden csurf!!!!!!--}} 
 
     {{/edit}}
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <button type="submit" id="editB">ALOHOMORA</button>
 </form>
 </div>
