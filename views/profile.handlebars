@@ -1,10 +1,9 @@
 <div class="container-profile">
 
-<form method="POST">
   <div id="text-profile">
     <h1> Please tell us your age, location and url so we know who you are and where to send the letters to.</h1>
 
-  </div>
+<form method="POST">
 
   <div id="profile">
     <input type="text" id="age" placeholder="11" name="age">
@@ -14,13 +13,14 @@
   <input type="hidden" name="_csrf" value="{{csrfToken}}">
   </div>
 
-    <button type="submit" id="registerB">ALOHOMORA</button>
+    <button type="submit" id="registerProfile">ALOHOMORA</button>
 </form>
 <img id="hedwig1" src="https://media.giphy.com/media/M9YqO5o5kA9tbiaihF/giphy.gif" alt="Hedwig flying">
  {{#if err}}
-    <p>ERROR IN profile UNFORTUNATELY PEANUTBUTTER</p>
+    <p>⚡️*Appare Vestigium*⚡️ something went wrong, please try again</p>
    {{/if}}
 <img id="hedwig2" src="https://media.giphy.com/media/GteOKFcMVVRkc/giphy.gif" alt="Hedwig 2">
 
 {{> header }}
+  </div>
 </div>

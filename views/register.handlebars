@@ -1,28 +1,28 @@
   <div class="container-register">
 
-    <form method="POST">
 
   <div id="text-register">
   <h1>Welcome witches and wizards </h1>
    <h3> This petition is for everyone who is feeling sad about not receiving their Hogwarts letter.</h3>
   <h4>As you might know, Hogwarts uses owls to bring the letters to the wizards and witches. Unfortunately a few owls got lost on their way, hence we never received ours.</h2>
 
-  <h5>If we reach 25000 signatures, Hogwarts' headmaster promised us to send all the lost letters again.</h3>
+  <h5>If we reach 25000 signatures, Hogwarts' headmaster promised us to send all the lost letters.</h3>
 
   <p>Sign up here!</p>
-  </div>
 
   <div id="register">
+    <form method="POST">
     <input type="text" id="firstName" placeholder="Harry" name="firstName">
     <input type="text" id="lastName" placeholder="Potter" name="lastName">
     <input type="email" id="email" placeholder="harry.potter@hogwarts.com" required name="email">
     <input type="password" id="password" placeholder="password" required name="password">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-  <input type="hidden" name="_csrf" value="{{csrfToken}}">
-   </div>
 
     <button type="submit" id="registerB">ALOHOMORA</button>
 </form>
+  </div>
+   </div>
  {{#if err}}
     <p id="errorRegister"> ⚡️*Appare Vestigium*⚡️ something went wrong, please try again</p>
    {{/if}}

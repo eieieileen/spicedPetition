@@ -67,7 +67,7 @@ module.exports.profilePage = (age, city, url, user_id) => {
     const q = `INSERT INTO user_profiles (age, city, url, user_id)
     VALUES ($1, LOWER($2), $3, $4)
     RETURNING user_id`;
-    const params = [age, city, url, user_id];
+    const params = [age || null, city || null, url || null, user_id];
     return db.query(q, params);
 };
 
@@ -144,6 +144,11 @@ module.exports.deleteSignature = (id) => {
     return db.query(q, params);
 };
 
+module.exports.getFirstName = (id) => {
+    const q = `SELECT first_name FROM users WHERE id = ($1)`;
+    const params = [id];
+    return db.query(q, params);
+};
 // module.exports.deleteUsers = (first_name, last_name, password_hash, email) => {
 //     const q = `DELETE FROM users WHERE user_id = ($1)`;
 //     const params = [first_name, last_name, password_hash, email];

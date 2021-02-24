@@ -1,28 +1,32 @@
-<h1>Here you can edit your profile</h1>
-{{!-- //loopen door de rows --}}
- 
+<div class="container-edit">
+
+<div id="text-edit">
+<h1>In case you move, we need to know where to send the letter to</h1>
+
+ <div id="edit-profile">
 <form method="POST">
     {{#edit}}
-    <input type="text" id="firstName" value={{first_name}} name="firstName">first name
-    <input type="text" id="lastName" value={{last_name}} name="lastName">last name
-    <input type="email" id="email" value={{email}} name="email">email
-    <input type="password" id="password" name="password">password
-    <input type="text" id="age"  value={{age}} name="age">age
-    <input type="text" id="city" value={{city}} name="city">city
-    <input type="text" id="url" value={{url}} name="url">url
+    <input type="text" id="firstName" value={{first_name}} name="firstName">
+    <input type="text" id="lastName" value={{last_name}} name="lastName">
+    <input type="email" id="email" value={{email}} name="email">
+    <input type="password" id="password" name="password">
+    <input type="text" id="age"  value={{age}} name="age">
+    <input type="text" id="city" value={{city}} name="city">
+    <input type="text" id="url" value={{url}} name="url">
     {{!-- <input type="text" id="url" name="url">url 
     hidden csurf!!!!!!--}} 
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
     {{/edit}}
-    <button type="submit" id="registerB">SUBMIT</button>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <button type="submit" id="editB">ALOHOMORA</button>
 </form>
+</div>
 
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
-   
+ </div>  
 
 {{> header }}
-
+</div>
 
 {{!-- you'll need a total of 8 input fields - 
 first, last, email, password, age, 

@@ -1,11 +1,20 @@
+<div class="container-login">
+   <div id="text-login"> 
+<h1>You want to learn to fight against the evil! </h1>
+
+<div id="login">
 <form method="POST">
-    <input type="email" id="email" required name="email">Email
-    <input type="password" id="password" required name="password">Password
+    <input type="email" id="email" required placeholder="email" name="email">
+    <input type="password" id="password" required placeholder="password" name="password">
     <button type="submit" id="loginB">LOG IN</button>
       <input type="hidden" name="_csrf" value="{{csrfToken}}">
 </form>
+</div>
  {{#if err}}
-    <p>ERROR IN LOGIN UNFORTUNATELY PEANUTBUTTER</p>
+    <p>⚡️*Appare Vestigium*⚡️ something went wrong, please try again</p>
    {{/if}}
 
-      <a href="/register">Or click here to register </a>
+      <a  id="loginA" href="/register">Or click here to register </a>
+</div>
+
+</div>

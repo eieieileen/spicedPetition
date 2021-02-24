@@ -40,9 +40,13 @@ app.get("/", (req, res) => {
 //homepage
 app.get("/petition", (req, res) => {
     if (!req.session.signature && req.session.loggedIn) {
-        res.render("petition", {
-            layout: "main",
-        });
+        db.getFirstName(req.session.loggedIn).then(({rows}) => {
+            res.render("petition", {
+                layout: "main",
+                name: rows[0].first_name
+            });
+
+        }).catch((err) => console.log("no name for wizard x", err));
     } else if (req.session.signature && req.session.loggedIn) {
         res.redirect("/thanks");
     } else {

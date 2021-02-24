@@ -1,12 +1,22 @@
-<h1>Signers page</h1>
-<div>
+<div class="container-signers">
+
+        <div id="text-signers">
+                <h1>Witches and wizards</h1>
+
+        </div>
+<div id="signers">
 {{#profile}}
+  
 <li>
-    <ul>
         <a href={{url}}>{{first_name}} {{last_name}}</a>, {{age}}
         <a href="/signers/{{city}}">{{city}}</a>
-    </ul>
 </li>
+
+
+
 {{/profile}}
+<a id="back" href="/thanks">click here to go back</a>
+
 </div>
 {{> header }}
+</div>
