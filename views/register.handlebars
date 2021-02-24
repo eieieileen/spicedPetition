@@ -1,5 +1,7 @@
   <div class="container-register">
+
     <form method="POST">
+
   <div id="text-register">
   <h1>Welcome witches and wizards </h1>
    <h3> This petition is for everyone who is feeling sad about not receiving their Hogwarts letter.</h3>
@@ -9,6 +11,7 @@
 
   <p>Sign up here!</p>
   </div>
+
   <div id="register">
     <input type="text" id="firstName" placeholder="Harry" name="firstName">
     <input type="text" id="lastName" placeholder="Potter" name="lastName">
@@ -18,10 +21,10 @@
   <input type="hidden" name="_csrf" value="{{csrfToken}}">
    </div>
 
-    <button type="submit" id="registerB">SUBMIT</button>
+    <button type="submit" id="registerB">ALOHOMORA</button>
 </form>
  {{#if err}}
-    <p>ERROR IN REGISTER UNFORTUNATELY PEANUTBUTTER</p>
+    <p id="errorRegister"> ⚡️*Appare Vestigium*⚡️ something went wrong, please try again</p>
    {{/if}}
 
    <img id="imgRegister" src="https://media.giphy.com/media/NVkmALx2kYwhCOlYFC/giphy.gif" alt="Harry Potter letter">

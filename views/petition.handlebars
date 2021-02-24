@@ -1,20 +1,32 @@
-<h1>👨🏻‍🍳HI, and welcome to this petition. My name is Eileen and my boyfriend never cooks dinner. This petition is to get him to cook more! If we reach 100000 signers, he will be send to a cooking class 👨🏻‍🍳</h1>
+<div class="container-petition">
+<div id="text-petition">
+<h1>You have already come so far, thank you!</h1>
+<h2>Let us know that you have magical powers, sign here with your wand</h2>
+</div>
 
+<div id="petition">
 <form method="POST">
     
 
     <input id="signature" type="hidden" name="signature">
 
-    <canvas id="canvas" width="500" height="100" name="canvas"></canvas>
+    <canvas id="canvas" width="600" height="150" name="canvas"></canvas>
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-    <button id="button" type="submit">SUBMIT</button>
+</div>
+
+    <button id="registerB" type="submit">ALHOMORA</button>
+
 </form>
+<img id="clapping1" src="https://media.giphy.com/media/PXvCWUnmqVdks/giphy.gif" alt="McGonagall">
+
+<img id="clapping2" src="https://media.giphy.com/media/8l1UFvNSS5SwM/giphy.gif" alt="Snape">
     {{#if err}}
-    <p>ERROR UNFORTUNATELY PEANUTBUTTER</p>
+    <p>⚡️*Appare Vestigium*⚡️ something went wrong, please try again</p>
    {{/if}}
    {{> header }}
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="canvas.js"></script>
 
+</div>

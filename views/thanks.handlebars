@@ -1,19 +1,28 @@
-<h1>Thank you for signing the awesome petition</h1>
+<div class="container-thanks">
 
-<h2>Here you see your handtekening </h2>
+<div id="text-thanks">
+<h1>We thank you</h1>
+
+<h2>Proof that you're not a muggle: </h2>
 
 <img src="{{img}}" alt="siggywigyy">
 
-<h1>See how many people signed before you: {{count}}</h1>
-<h2>Click <a href="/signers">here</a> to see who those people were</h2>
+<h3> {{count}} wizards or witches signed before you</h3>
 
+<h4>Click <a href="/signers">here</a> to see if you know any of them</h4>
+
+</div>
+
+
+<div id="thanks">
 <form method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <button type="submit">DELETE SIGNATURE</button>
+
+    
+    <button type="submit">AVADA KEDAVRA SIGNATURE</button>
 </form>
+</div>
 
 {{> header }} 
-{{!-- maak edit --}}
 
-{{!-- 
-<a href="/signers">See who saind</a> --}}
+</div>
