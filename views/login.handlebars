@@ -4,10 +4,10 @@
 
 <div id="login">
 <form method="POST">
+   <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <input type="email" id="email" required placeholder="email" name="email">
     <input type="password" id="password" required placeholder="password" name="password">
     <button type="submit" id="loginB">LOG IN</button>
-      <input type="hidden" name="_csrf" value="{{csrfToken}}">
 </form>
 </div>
  {{#if err}}
