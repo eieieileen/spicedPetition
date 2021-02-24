@@ -2,25 +2,89 @@
     background-color: #a1869e;
 }
 
+/* register page */
+
+.container-register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* width: 500px; */
+}
+
+#text-register {
+    color: pink;
+    text-align: center;
+}
+
+#register {
+    /* border: solid 3px black; */
+   align-items: center;
+}
+
+#registerB {
+    width: 150px;
+    border: dotted pink 5px;
+    position: absolute;
+    bottom: 45%;
+    left: 45%;
+    cursor: pointer;
+}
+
+#register > div {
+   background-color: blue;
+   display: flex;
+   width: 500px;
+   justify-content: center;
+   
+}
+
+#register input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#goToLogin {
+    border: 3px solid black;
+    position: fixed;
+    bottom: 42%;
+    left: 45%;
+    
+}
+
+#imgRegister {
+    position: fixed;
+    bottom: 5%;
+}
+
+/* register page ends */
+
+
+
+
+
+
+
+
+
+
+
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2rem;            /* Footer height */
+}
+
 canvas {
     background-color: #e8ffb7;
-    border: 3px solid black;
+    border: 3px dotted black;
 }
-
 #signature {
     background-color: aqua;
-}
-
-button {
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
-    border: none;
-    transition: all 0.3s ease;
-}
-
-button:active {
-    box-shadow: none;
-}
-
-button:focus {
-    outline: 0;
 }

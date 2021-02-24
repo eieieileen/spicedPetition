@@ -7,6 +7,7 @@ const { hash, compare } = require("./bcrypt.js");
 const { setRandomFallback } = require("bcryptjs");
 const csurf = require("csurf");
 
+
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
@@ -30,6 +31,7 @@ app.use(function (req, res, next) {
     res.locals.csrfToken = req.csrfToken();
     next();
 });
+
 
 app.get("/", (req, res) => {
     res.redirect("/register");
@@ -63,9 +65,10 @@ app.post("/petition", (req, res) => {
             res.redirect("/thanks");
         })
         .catch((err) => {
-            console.log("error in app.post/petition 💃", err);
+            console.log("error in app.post/petition 💃", err, signature);
             res.render("petition", {
                 err: true, //ik wil hier dus de partial
+                
             });
         });
 });
