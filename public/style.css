@@ -186,7 +186,8 @@
 #text-signers {
     color: black;
     text-align: center;
-    margin: 30px;
+    padding: 20px;
+    /* margin: 30px; */
 }
 
 #signers {
